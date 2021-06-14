@@ -31,9 +31,9 @@ export const resolveStatus = () => {
     response = { ...response, ok: true, message: "Authorized access" };
   }
   console.log(response);
+  // Waits 2 seconds before returning the response object
   setTimeout(2000);
   return response;
-  //   return response;
   // Manual assignment for testing purposes
   // const status = statusCode[0];
 };
