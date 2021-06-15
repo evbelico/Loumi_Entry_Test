@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
-
-import { handleNavigation, resolveStatus } from "../api";
 
 import ItemCard from "../components/cards/ItemCard.jsx";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { useEffect } from "react";
 
 const flats = [
@@ -21,6 +17,8 @@ const flats = [
     pictureDesc:
       "Bright living room with couches and a balcony on the Tour Eiffel",
     price: 1500,
+    furnished: true,
+    rooms: 3,
   },
   {
     id: 2,
@@ -31,37 +29,47 @@ const flats = [
     picturePath: "/paris-salon-2.jpg",
     pictureDesc: "Two bedroom apartment near Ménilmontant district",
     price: 1100,
+    furnished: true,
+    rooms: 3,
   },
   {
     id: 3,
     ref: "PTR9261",
-    name: "Wonderful flat in 11th district - Paris",
+    name: "Very cute studio in 11th district - Paris",
     description:
       "Bright living room with couches and a balcony on the Tour Eiffel",
     picturePath: "/paris-salon-2.jpg",
     pictureDesc: "",
     price: 1100,
+    furnished: false,
+    rooms: 1,
+  },
+  {
+    id: 4,
+    ref: "ANJ1001",
+    name: "Wonderful flat in 18th district - Paris",
+    description:
+      "Bright living room with couches and a balcony on the Tour Eiffel",
+    picturePath: "/paris-salon-2.jpg",
+    pictureDesc: "",
+    price: 950,
+    furnished: false,
+    rooms: 2,
   },
 ];
 
 const useStyles = makeStyles((theme) => ({
   home: {
-    margin: "6rem auto 0rem auto",
-    // height: "100%",
-    // display: "flex",
-    // flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
+    height: "100vh",
   },
   bodyTitle: {
-    // margin: "5.50rem auto auto auto",
-    margin: "0rem auto 3rem auto",
+    margin: "6rem auto 3rem auto",
+    color: "#333333",
   },
 }));
 
 const Home = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   const [flatsList, setFlatsList] = useState([]);
 
@@ -71,24 +79,6 @@ const Home = () => {
     }
   }, []);
 
-  console.log("flats :", flats);
-  console.log("Flats list :", flatsList);
-
-  // const handleClick = async (flat) => {
-  //   const response = await resolveStatus();
-  //   console.log("So...", response);
-  //   if (response !== null && response.ok) {
-  //     history.push({
-  //       pathname: `/flat/${flat.id}`,
-  //       state: { flat: flat },
-  //     });
-  //   } else {
-  //     console.log("Err:", response);
-  //     // const status = response.status.toString();
-  //     history.push(`/${response.status.toString()}`);
-  //   }
-  // };
-
   return (
     <main className={classes.home}>
       <Typography
@@ -97,15 +87,14 @@ const Home = () => {
         align="center"
         className={classes.bodyTitle}
       >
-        Découvrez nos logements disponibles
+        Discover all our available flats
       </Typography>
       <Grid
         container
         spacing={2}
         direction="row"
         justify="center"
-        wrap="nowrap"
-        className={classes.home}
+        alignItems="center"
       >
         {flatsList !== null ? (
           flatsList.map((flat) => <ItemCard flatObj={flat} key={flat.id} />)

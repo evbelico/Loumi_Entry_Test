@@ -34,10 +34,7 @@ export const resolveStatus = () => {
   // Waits 2 seconds before returning the response object
   setTimeout(2000);
   return response;
+
   // Manual assignment for testing purposes
   // const status = statusCode[0];
-};
-
-export const handleNavigation = async () => {
-  return await setTimeout(resolveStatus, 2000);
 };

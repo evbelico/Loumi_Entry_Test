@@ -5,30 +5,58 @@ import { useHistory } from "react-router-dom";
 import { resolveStatus } from "../../api";
 
 import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import {
-  Grid,
   Card,
   CardActionArea,
   CardMedia,
   CardContent,
+  Typography,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    // border: 2,
     borderRadius: 5,
     borderColor: "primary",
   },
   cardMedia: {
-    // height: 300,
     width: "100%",
   },
+  cardContentBox: {
+    width: "100%",
+    padding: "1rem 1.5rem !important",
+  },
   cardContent: {
-    height: "3rem",
-    width: "80%",
+    textAlign: "center",
+  },
+  cardDetails: {
+    marginTop: "0.50rem",
+  },
+  flatInfo: {
+    borderColor: "#ff507d",
+    borderStyle: "solid",
+    borderWidth: "2px",
+    borderRadius: "10px",
+  },
+  textNormalized: {
+    "text-transform": "inherit",
   },
   itemName: {
     fontWeight: "1.1rem",
+  },
+  textColor: {
+    color: "#333333",
+  },
+  navButton: {
+    marginTop: theme.spacing(2),
+    width: "100%",
+    background:
+      "linear-gradient(to right, #247df3 0%, #ffd17d 35%, #ff507d 100%)",
+    color: "#ffffff",
+    fontWeight: "1000",
+    webkitBackgroundClip: "text",
+    webkitTextFillColor: "transparent",
   },
 }));
 
@@ -37,20 +65,15 @@ const ItemCard = ({ flatObj }) => {
 
   const history = useHistory();
 
-  console.log("R u here :", flatObj);
   const handleNavigation = async () => {
-    // const response = await handleNavigation();
     const response = await resolveStatus();
-    console.log("So...", response);
+
     if (response !== null && response.ok) {
       history.push({
         pathname: `/flat/${flatObj.id}`,
         state: { flat: flatObj },
       });
     } else {
-      console.log("Err:", response);
-      // const status = response.status.toString();
-      // console.log(stat, typeof stat);
       history.push(`/${response.status.toString()}`);
     }
   };
@@ -59,7 +82,7 @@ const ItemCard = ({ flatObj }) => {
     <React.Fragment>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <Card className={classes.card} raised>
-          <CardActionArea>
+          <CardActionArea onClick={handleNavigation}>
             <CardMedia
               title={flatObj.pictureName}
               component="img"
@@ -71,10 +94,56 @@ const ItemCard = ({ flatObj }) => {
           </CardActionArea>
           <CardContent
             onClick={handleNavigation}
-            className={classes.cardContent}
+            className={classes.cardContentBox}
           >
-            <CardActionArea>Chaloha !</CardActionArea>
+            <CardActionArea className={classes.cardContent}>
+              <Typography
+                variant="body1"
+                color="initial"
+                className={classes.textColor}
+              >
+                {flatObj.name}
+              </Typography>
+              <Grid
+                container
+                spacing={2}
+                justify="space-evenly"
+                className={classes.cardDetails}
+              >
+                <Grid item className={classes.flatInfo}>
+                  <Typography
+                    variant="button"
+                    color="initial"
+                    className={classes.textNormalized}
+                    gutterBottom
+                  >
+                    {flatObj.furnished ? "Furnished" : "Not furnished"}
+                  </Typography>
+                </Grid>
+                <Grid item className={classes.flatInfo}>
+                  <Typography
+                    variant="button"
+                    color="initial"
+                    className={classes.textNormalized}
+                    gutterBottom
+                  >
+                    {flatObj.rooms > 1
+                      ? `${flatObj.rooms} rooms`
+                      : `${flatObj.rooms}  room`}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardActionArea>
           </CardContent>
+          <Button
+            variant="contained"
+            color="default"
+            size="large"
+            className={classes.navButton}
+            onClick={handleNavigation}
+          >
+            {flatObj.price}€ / month
+          </Button>
         </Card>
       </Grid>
     </React.Fragment>
