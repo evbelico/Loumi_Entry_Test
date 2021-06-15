@@ -17,9 +17,8 @@ export const resolveStatus = () => {
   const randomStatusIndex = Math.floor(Math.random() * statusCodes.length);
 
   const status = statusCodes[randomStatusIndex];
-  console.log("Status :", status);
-
   response.status = status;
+
   if (status !== 200) {
     response.ok = false;
     response.message =
@@ -30,7 +29,6 @@ export const resolveStatus = () => {
   } else {
     response = { ...response, ok: true, message: "Authorized access" };
   }
-  console.log(response);
   // Waits 2 seconds before returning the response object
   setTimeout(2000);
   return response;
